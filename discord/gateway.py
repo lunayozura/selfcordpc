@@ -443,19 +443,18 @@ class DiscordWebSocket:
         #     presence['activities'] = self._connection._activities
 
         # TODO: Implement client state
-        payload     = {
+        payload = {
             'op': self.IDENTIFY,
             'd': {
                 'token': self.token,
-                # 'platform': 'desktop',  # Décommenter si nécessaire
                 'properties': {
-                    "$os": "windows",
-                    "$browser": "Discord",
+                    "$os": "Windows",
+                    "$browser": "Discord Client",  # Modifie si tu simules autre chose
                     "$device": "desktop",
                 },
                 'capabilities': self.capabilities.value,
-                'presence': presence,
-                'compress': False,  # Désactiver la compression pour contourner les problèmes liés à _zlib_enabled
+                'presence': presence,  # Assure-toi que ce champ est bien structuré
+                'compress': False,
                 'client_state': {
                     'api_code_version': 0,
                     'guild_versions': {},
@@ -467,6 +466,7 @@ class DiscordWebSocket:
                 },
             },
         }
+
 
 
         await self.call_hooks('before_identify', initial=self._initial_identify)
