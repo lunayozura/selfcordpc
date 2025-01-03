@@ -443,7 +443,7 @@ class DiscordWebSocket:
         #     presence['activities'] = self._connection._activities
 
         # TODO: Implement client state
-        payload = {
+        payload     = {
             'op': self.IDENTIFY,
             'd': {
                 'token': self.token,
@@ -454,9 +454,8 @@ class DiscordWebSocket:
                     "$device": "desktop",
                 },
                 'capabilities': self.capabilities.value,
-                'properties': self._super_properties,
                 'presence': presence,
-                'compress': not self._zlib_enabled,  # We require at least one form of compression
+                'compress': False,  # Désactiver la compression pour contourner les problèmes liés à _zlib_enabled
                 'client_state': {
                     'api_code_version': 0,
                     'guild_versions': {},
@@ -468,6 +467,7 @@ class DiscordWebSocket:
                 },
             },
         }
+
 
         await self.call_hooks('before_identify', initial=self._initial_identify)
         await self.send_as_json(payload)
